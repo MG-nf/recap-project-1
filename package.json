@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build:watch": "tsc --watch",
+    "start:dev": "nodemon dist/index.js",
+    "dev": "concurrently \"npm run build:watch\" \"npm run start:dev\" \"npx http-server -c-1\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.1",
+    "tsx": "^4.21.0"
+  }
+}
