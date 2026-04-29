@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "scripts": {
     "build:watch": "tsc --watch",
     "start:dev": "nodemon dist/index.js",
