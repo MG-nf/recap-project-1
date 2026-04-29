@@ -19,3 +19,5 @@ export async function findBook(searchTerm: string): Promise<Book[]> {
 
     return resultBooks as Book[];
 }
+
+export const bookListData: Book[] = await fetchBooks();
