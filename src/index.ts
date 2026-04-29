@@ -119,7 +119,10 @@ function addFavorite(book: Book): void {
 }
 
 function deleteFavorite(book: Book): void {
-    //remove isbn from local storage
+    const favorites = getFavorites();
+    const updatedFavorites = favorites.filter(isbn => isbn !== book.isbn);
+    
+    localStorage.setItem(favorites_key, JSON.stringify(updatedFavorites));
 }
 
 function getFavorites(): string[] {
