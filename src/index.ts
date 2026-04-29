@@ -1,6 +1,6 @@
 import type {Book} from "./types/book";
+import { fetchBooks, findBook } from "./api/bookApi.js";
 
-const apiUrl = "http://localhost:4730/";
 const bookList = document.getElementsByTagName("tbody")[0] as HTMLTableSectionElement;
 const heading = document.getElementsByTagName("h2")[0] as HTMLHeadingElement;
 const htmlForms = document.getElementsByTagName("form") as HTMLCollectionOf<HTMLFormElement>;
@@ -35,13 +35,6 @@ const isNotFavoriteBtn = `<svg
                         d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
                       />
                     </svg>`
-
-async function fetchBooks(): Promise<Book[]> {
-    const response = await fetch(apiUrl + "books");
-    const books = await response.json() as Book[];
-
-    return books as Book[];
-}
 
 function createBookRow(book: Book): HTMLTableRowElement {
     const row = document.createElement("tr");
@@ -97,6 +90,8 @@ function createFavBtn(book: Book): HTMLButtonElement {
             addFavorite(book);
             favBtn.innerHTML = isFavoriteBtn;
         }
+        favoritesCount.innerText = getFavoritesCount().toString();
+
     });
 
     return favBtn;
@@ -121,7 +116,7 @@ function addFavorite(book: Book): void {
 function deleteFavorite(book: Book): void {
     const favorites = getFavorites();
     const updatedFavorites = favorites.filter(isbn => isbn !== book.isbn);
-    
+
     localStorage.setItem(favorites_key, JSON.stringify(updatedFavorites));
 }
 
@@ -187,7 +182,7 @@ filterSelect.addEventListener("change", () => {
         .map((book) => createBookRow(book))
         .forEach((bookRow) => bookList.append(bookRow));
 });
-
+/*
 async function findBook(searchTerm: string): Promise<Book[]> {
     const response = await fetch(apiUrl + "books/?q=" + searchTerm);
     const books = await response.json() as Book[];
@@ -198,6 +193,7 @@ async function findBook(searchTerm: string): Promise<Book[]> {
 
     return resultBooks as Book[];
 }
+*/
 
 const bookListData: Book[] = await fetchBooks();
 favoritesCount.innerText = getFavoritesCount().toString();
@@ -209,5 +205,3 @@ heading.innerText = `${bookListData.length} Books displayed`;
 bookListData
     .map((book) => createBookRow(book))
     .forEach((bookRow) => bookList.append(bookRow));
-
-console.log(getFavoritesCount());
